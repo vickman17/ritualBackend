@@ -1,0 +1,22 @@
+{
+  "name": "ritual-quiz-backend",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node dist/index.js",
+    "db:init": "node dist/scripts/initDb.js",
+    "migrate:rooms": "node dist/scripts/migrateRooms.js",
+    "migrate:time": "node dist/scripts/migrateStartTime.js"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.0.2",
+    "mysql2": "^3.16.0",
+    "socket.io": "^4.8.3"
+  }
+}
