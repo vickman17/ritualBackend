@@ -36,3 +36,4 @@ async function migrate() {
     }
 }
 migrate();
+//# sourceMappingURL=migrateStartTime.js.map

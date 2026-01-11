@@ -37,3 +37,4 @@ async function migrate() {
     }
 }
 migrate();
+//# sourceMappingURL=migrateRooms.js.map

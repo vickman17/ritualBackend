@@ -52,3 +52,4 @@ const getMyScore = async (req, res) => {
     }
 };
 exports.getMyScore = getMyScore;
+//# sourceMappingURL=userController.js.map

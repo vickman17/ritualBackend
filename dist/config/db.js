@@ -17,3 +17,4 @@ const pool = promise_1.default.createPool({
     multipleStatements: true // Enable multiple statements for running schema.sql
 });
 exports.default = pool;
+//# sourceMappingURL=db.js.map

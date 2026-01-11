@@ -86,3 +86,4 @@ const getQuestions = async (req, res) => {
     }
 };
 exports.getQuestions = getQuestions;
+//# sourceMappingURL=questionController.js.map

@@ -96,3 +96,4 @@ router.post('/room-cover', authMiddleware_js_1.authenticateToken, coverUpload.si
     res.json({ success: true, url: urlPath });
 });
 exports.default = router;
+//# sourceMappingURL=uploadRoutes.js.map

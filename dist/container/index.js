@@ -31,3 +31,4 @@ exports.container = {
     questionService: new QuestionService_js_1.QuestionService(questionRepository, roomRepository),
     answerService: new AnswerService_js_1.AnswerService(answerRepository),
 };
+//# sourceMappingURL=index.js.map

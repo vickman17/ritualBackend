@@ -23,3 +23,4 @@ router.get('/:id', authMiddleware_js_1.authenticateToken, roomController_js_1.ge
 router.put('/:id', authMiddleware_js_1.authenticateToken, roomController_js_1.updateRoom);
 router.delete('/:id', authMiddleware_js_1.authenticateToken, roomController_js_1.deleteRoom);
 exports.default = router;
+//# sourceMappingURL=roomRoutes.js.map

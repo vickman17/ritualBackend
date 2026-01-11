@@ -160,3 +160,4 @@ const discordCallback = async (req, res) => {
     }
 };
 exports.discordCallback = discordCallback;
+//# sourceMappingURL=authController.js.map

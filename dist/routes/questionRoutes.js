@@ -14,3 +14,4 @@ router.post('/room/:roomId', authMiddleware_js_1.authenticateToken, questionCont
 // Delete a question
 router.delete('/:id', authMiddleware_js_1.authenticateToken, questionController_js_1.deleteQuestion);
 exports.default = router;
+//# sourceMappingURL=questionRoutes.js.map

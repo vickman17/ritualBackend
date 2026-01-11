@@ -11,3 +11,4 @@ router.patch('/me/avatar', authMiddleware_js_1.authenticateToken, userController
 router.get('/me/score', authMiddleware_js_1.authenticateToken, userController_js_1.getMyScore);
 router.get('/me/recent-played', authMiddleware_js_1.authenticateToken, userController_js_1.getMyRecentPlayed);
 exports.default = router;
+//# sourceMappingURL=userRoutes.js.map

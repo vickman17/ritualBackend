@@ -43,3 +43,4 @@ async function initDb() {
     }
 }
 initDb();
+//# sourceMappingURL=initDb.js.map

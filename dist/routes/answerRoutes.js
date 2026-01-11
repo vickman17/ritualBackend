@@ -101,3 +101,4 @@ router.post('/my-status', authMiddleware_js_1.authenticateToken, async (req, res
     }
 });
 exports.default = router;
+//# sourceMappingURL=answerRoutes.js.map

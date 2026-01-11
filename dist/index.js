@@ -387,3 +387,4 @@ ensureSchema().then(() => {
 });
 // Prevent immediate exit if something else closes the event loop
 setInterval(() => { }, 1000 * 60 * 60);
+//# sourceMappingURL=index.js.map

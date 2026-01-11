@@ -38,3 +38,4 @@ class QuestionRepositoryMongo {
     }
 }
 exports.QuestionRepositoryMongo = QuestionRepositoryMongo;
+//# sourceMappingURL=QuestionRepositoryMongo.js.map

@@ -28,3 +28,4 @@ class QuestionRepositoryMySQL {
     }
 }
 exports.QuestionRepositoryMySQL = QuestionRepositoryMySQL;
+//# sourceMappingURL=QuestionRepositoryMySQL.js.map

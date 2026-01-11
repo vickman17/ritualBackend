@@ -29,3 +29,4 @@ async function nextId(seqName) {
     const doc = await counters.findOne({ _id: seqName });
     return doc?.seq ?? 1;
 }
+//# sourceMappingURL=mongo.js.map

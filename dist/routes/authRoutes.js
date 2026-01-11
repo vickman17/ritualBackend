@@ -11,3 +11,4 @@ router.post('/login', authController_js_1.login);
 router.get('/discord', authController_js_1.discordRedirect);
 router.get('/discord/callback', authController_js_1.discordCallback);
 exports.default = router;
+//# sourceMappingURL=authRoutes.js.map
