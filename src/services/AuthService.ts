@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import fs from 'fs';
 import path from 'path';
 import { IUserRepository } from '../repositories/interfaces/UserRepository.js';
+import { uploadToCloudinary } from '../config/cloudinary.js';
 
 export class AuthService {
   constructor(private readonly users: IUserRepository, private readonly jwtSecret: string) {}
@@ -26,24 +27,44 @@ export class AuthService {
     const isMatch = await bcrypt.compare(password, user['password_hash']);
     if (!isMatch) return { invalid: true };
     let currentAvatar = user['avatar_url'] ? String(user['avatar_url']) : '';
-    const needsAvatar = !currentAvatar || /^(?!https?:\/\/)(?!\/uploads\/)/i.test(currentAvatar);
-    if (needsAvatar) {
+    const baseFolder = process.env.CLOUDINARY_FOLDER || 'ritualquiz';
+    if (!currentAvatar) {
       const chosen = this.pickRandomSiggyAvatar();
       if (chosen) {
-        await this.users.updateAvatar(Number(user['id']), chosen);
-        currentAvatar = chosen;
-        user['avatar_url'] = chosen;
+        try {
+          const rel = chosen.replace(/^\/uploads\//, '');
+          const fsPath = path.resolve(__dirname, '../../uploads', rel);
+          if (fs.existsSync(fsPath)) {
+            const buffer = fs.readFileSync(fsPath);
+            const uploaded = await uploadToCloudinary(buffer, `${baseFolder}/avatars`);
+            currentAvatar = uploaded.url;
+            await this.users.updateAvatar(Number(user['id']), currentAvatar);
+            user['avatar_url'] = currentAvatar;
+          }
+        } catch {}
       }
-    } else if (currentAvatar && currentAvatar.startsWith('/uploads/')) {
+    } else if (currentAvatar.startsWith('/uploads/')) {
       try {
         const rel = currentAvatar.replace(/^\/uploads\//, '');
-        const fsPath = path.resolve(__dirname, '../uploads', rel);
-        if (!fs.existsSync(fsPath)) {
+        const fsPath = path.resolve(__dirname, '../../uploads', rel);
+        if (fs.existsSync(fsPath)) {
+          const buffer = fs.readFileSync(fsPath);
+          const uploaded = await uploadToCloudinary(buffer, `${baseFolder}/avatars`);
+          currentAvatar = uploaded.url;
+          await this.users.updateAvatar(Number(user['id']), currentAvatar);
+          user['avatar_url'] = currentAvatar;
+        } else {
           const chosen = this.pickRandomSiggyAvatar();
           if (chosen) {
-            await this.users.updateAvatar(Number(user['id']), chosen);
-            currentAvatar = chosen;
-            user['avatar_url'] = chosen;
+            const rel2 = chosen.replace(/^\/uploads\//, '');
+            const fsPath2 = path.resolve(__dirname, '../../uploads', rel2);
+            if (fs.existsSync(fsPath2)) {
+              const buffer2 = fs.readFileSync(fsPath2);
+              const uploaded2 = await uploadToCloudinary(buffer2, `${baseFolder}/avatars`);
+              currentAvatar = uploaded2.url;
+              await this.users.updateAvatar(Number(user['id']), currentAvatar);
+              user['avatar_url'] = currentAvatar;
+            }
           }
         }
       } catch {}

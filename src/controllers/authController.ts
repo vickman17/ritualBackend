@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import fs from 'fs';
 import path from 'path';
 import { container } from '../container/index.js';
+import { uploadToCloudinary } from '../config/cloudinary.js';
 
 const JWT_SECRET = process.env.JWT_SECRET;
 if (!JWT_SECRET) {
@@ -37,7 +38,20 @@ if(req.method === "GET"){
 
   try {
     const defaultAvatar = pickRandomSiggyAvatar();
-    const result = await container.authService.register(username, email, password, role, defaultAvatar || '');
+    let avatarUrl = '';
+    if (defaultAvatar && defaultAvatar.startsWith('/uploads/')) {
+      try {
+        const rel = defaultAvatar.replace(/^\/uploads\//, '');
+        const fsPath = path.resolve(__dirname, '../../uploads', rel);
+        if (fs.existsSync(fsPath)) {
+          const buffer = fs.readFileSync(fsPath);
+          const baseFolder = process.env.CLOUDINARY_FOLDER || 'ritualquiz';
+          const uploaded = await uploadToCloudinary(buffer, `${baseFolder}/avatars`);
+          avatarUrl = uploaded.url;
+        }
+      } catch {}
+    }
+    const result = await container.authService.register(username, email, password, role, avatarUrl);
     if (result.conflict) {
       res.status(409).json({ success: false, message: 'User already exists' });
       return;

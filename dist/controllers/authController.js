@@ -7,6 +7,7 @@ exports.discordCallback = exports.discordRedirect = exports.login = exports.regi
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const index_js_1 = require("../container/index.js");
+const cloudinary_js_1 = require("../config/cloudinary.js");
 const JWT_SECRET = process.env.JWT_SECRET;
 if (!JWT_SECRET) {
     throw new Error('JWT_SECRET is not defined in environment variables');
@@ -38,7 +39,21 @@ const register = async (req, res) => {
     }
     try {
         const defaultAvatar = pickRandomSiggyAvatar();
-        const result = await index_js_1.container.authService.register(username, email, password, role, defaultAvatar || '');
+        let avatarUrl = '';
+        if (defaultAvatar && defaultAvatar.startsWith('/uploads/')) {
+            try {
+                const rel = defaultAvatar.replace(/^\/uploads\//, '');
+                const fsPath = path_1.default.resolve(__dirname, '../../uploads', rel);
+                if (fs_1.default.existsSync(fsPath)) {
+                    const buffer = fs_1.default.readFileSync(fsPath);
+                    const baseFolder = process.env.CLOUDINARY_FOLDER || 'ritualquiz';
+                    const uploaded = await (0, cloudinary_js_1.uploadToCloudinary)(buffer, `${baseFolder}/avatars`);
+                    avatarUrl = uploaded.url;
+                }
+            }
+            catch { }
+        }
+        const result = await index_js_1.container.authService.register(username, email, password, role, avatarUrl);
         if (result.conflict) {
             res.status(409).json({ success: false, message: 'User already exists' });
             return;

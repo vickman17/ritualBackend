@@ -23,6 +23,8 @@ const port = process.env.PORT ? Number(process.env.PORT) : 5000;
 
 app.use(cors());
 app.use(express.json());
+// Trust proxy headers for correct protocol detection behind reverse proxies (e.g., Render)
+app.set('trust proxy', 1);
 // Serve uploaded files (use existing folder only, resolved relative to this file)
 const uploadRoot = path.resolve(__dirname, '../uploads');
 app.use('/uploads', express.static(uploadRoot));

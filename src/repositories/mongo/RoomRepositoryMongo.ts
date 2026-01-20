@@ -124,8 +124,8 @@ export class RoomRepositoryMongo implements IRoomRepository {
     const p = await parts.find({ room_id: roomId }).sort({ joined_at: -1 }).toArray();
     const result: any[] = [];
     for (const row of p) {
-      const u = await users.findOne({ id: row.user_id }, { projection: { id: 1, username: 1 } });
-      if (u) result.push({ id: u.id, username: u.username, joined_at: row.joined_at });
+      const u = await users.findOne({ id: row.user_id }, { projection: { id: 1, username: 1, avatar_url: 1 } });
+      if (u) result.push({ id: u.id, username: u.username, avatar_url: u.avatar_url || null, joined_at: row.joined_at });
     }
     return result;
   }

@@ -69,7 +69,7 @@ export class RoomRepositoryMySQL implements IRoomRepository {
   }
   async getParticipants(roomId: number): Promise<any[]> {
     const [participants] = await pool.query<any[]>(
-      `SELECT u.id, u.username, p.joined_at 
+      `SELECT u.id, u.username, u.avatar_url, p.joined_at 
        FROM participants p 
        JOIN users u ON p.user_id = u.id 
        WHERE p.room_id = ? 
